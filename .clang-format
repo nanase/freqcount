@@ -1,0 +1,8 @@
+BasedOnStyle: Google
+
+AlignConsecutiveAssignments: true
+AllowShortBlocksOnASingleLine: true
+AllowShortIfStatementsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: Empty
+ColumnLimit: 120
+Cpp11BracedListStyle: false
