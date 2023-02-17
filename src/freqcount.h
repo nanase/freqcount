@@ -13,7 +13,7 @@ class FreqCountIRQ {
   static void __freq_count_isr(FreqCountIRQ *instance);
 
  public:
-  void begin(pin_size_t pin, PinStatus mode = RISING);
+  bool begin(pin_size_t pin, PinStatus mode = RISING);
   void end();
   void set_max_observation_count(uint32_t max_observation_count);
   bool update();
