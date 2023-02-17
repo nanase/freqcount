@@ -1,6 +1,6 @@
 {
   "name": "freqcount",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Frequency counter for Raspberry Pi Pico using IRQ or PIO",
   "keywords": "frequency,counter",
   "repository": {
