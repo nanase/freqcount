@@ -14,6 +14,6 @@ void loop() {
   delay(1000);
 
   if (freq_count.update()) {
-    Serial.println(freq_count.get_observated_frequency(), 3);
+    Serial.println(freq_count.get_observed_frequency(), 3);
   }
 }

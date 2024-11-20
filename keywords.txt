@@ -4,5 +4,5 @@ FreqCountPIO	KEYWORD1
 begin	KEYWORD2
 end	KEYWORD2
 update	KEYWORD2
-get_observated_frequency	KEYWORD2
+get_observed_frequency	KEYWORD2
 set_max_observation_count	KEYWORD2

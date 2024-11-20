@@ -7,19 +7,19 @@
 void FreqCountIRQ::__freq_count_isr(FreqCountIRQ *instance) {
   uint64_t time = micros();
 
-  if (instance->observated_count < instance->max_observation_count) {
-    instance->triggerred_spans += time - instance->old_time;
-    instance->observated_count++;
+  if (instance->observed_count < instance->max_observation_count) {
+    instance->triggered_spans += time - instance->old_time;
+    instance->observed_count++;
   }
 
   instance->old_time = time;
 }
 
 bool FreqCountIRQ::begin(pin_size_t pin, PinStatus mode) {
-  this->attached_pin     = pin;
-  this->observated_count = 0;
-  this->triggerred_spans = 0;
-  this->old_time         = micros();
+  this->attached_pin    = pin;
+  this->observed_count  = 0;
+  this->triggered_spans = 0;
+  this->old_time        = micros();
   attachInterrupt(digitalPinToInterrupt(pin), FreqCountIRQ::__freq_count_isr, mode, this);
 
   return true;
@@ -34,25 +34,25 @@ void FreqCountIRQ::set_max_observation_count(uint32_t max_observation_count) {
 }
 
 bool FreqCountIRQ::update() {
-  if (this->observated_count == 0) {
-    this->observated_frequency = NAN;
+  if (this->observed_count == 0) {
+    this->observed_frequency = NAN;
     return false;
   }
 
   noInterrupts();
-  uint64_t spans_total   = triggerred_spans;
-  uint32_t count         = observated_count;
-  this->triggerred_spans = 0;
-  this->observated_count = 0;
+  uint64_t spans_total  = triggered_spans;
+  uint32_t count        = observed_count;
+  this->triggered_spans = 0;
+  this->observed_count  = 0;
   interrupts();
 
-  this->observated_frequency = 1.0 / ((spans_total / (double)count) * 1e-6);
+  this->observed_frequency = 1.0 / ((spans_total / (double)count) * 1e-6);
 
   return true;
 }
 
-double FreqCountIRQ::get_observated_frequency() {
-  return this->observated_frequency;
+double FreqCountIRQ::get_observed_frequency() {
+  return this->observed_frequency;
 }
 
 #if !PICO_NO_HARDWARE
@@ -129,21 +129,21 @@ void FreqCountPIO::end() {
 
 bool FreqCountPIO::update() {
   if (pio_sm_get_rx_fifo_level(this->pio, this->sm) == 0) {
-    this->observated_frequency = NAN;
+    this->observed_frequency = NAN;
     return false;
   }
 
   uint32_t count = pio_sm_get(this->pio, this->sm);  // non-blocking
   pio_sm_set_enabled(this->pio, this->sm, false);
 
-  this->observated_frequency = 1.0 / ((UINT32_MAX - count) * this->clock_pulse_duration * /* 2 clocks */ 2.0 * 2.0);
+  this->observed_frequency = 1.0 / ((UINT32_MAX - count) * this->clock_pulse_duration * /* 2 clocks */ 2.0 * 2.0);
 
   this->restart_pio();
   return true;
 }
 
-double FreqCountPIO::get_observated_frequency() {
-  return this->observated_frequency;
+double FreqCountPIO::get_observed_frequency() {
+  return this->observed_frequency;
 }
 
 #endif

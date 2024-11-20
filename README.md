@@ -40,11 +40,11 @@ FreqCountPIO freq_count;
 freq_count.begin(PIN_INPUT);
 ```
 
-測定結果の更新を行うには `update()` を呼び出してください。測定が成功すると、 `true` が返されます。`get_observated_frequency()` を呼び出すと、測定された周波数を取得できます。
+測定結果の更新を行うには `update()` を呼び出してください。測定が成功すると、 `true` が返されます。`get_observed_frequency()` を呼び出すと、測定された周波数を取得できます。
 
 ```cpp
 if (freq_count.update()) {
-  Serial.println(freq_count.get_observated_frequency(), 3);
+  Serial.println(freq_count.get_observed_frequency(), 3);
 }
 ```
 

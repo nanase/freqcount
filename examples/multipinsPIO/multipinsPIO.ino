@@ -48,7 +48,7 @@ void loop() {
 
   for (size_t i = 0; i < 8; i++) {
     freq_count[i].update();
-    print_freq(freq_count[i].get_observated_frequency());
+    print_freq(freq_count[i].get_observed_frequency());
     Serial.print(" | ");
   }
 

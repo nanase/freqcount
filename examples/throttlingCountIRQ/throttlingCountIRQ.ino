@@ -17,6 +17,6 @@ void loop() {
 
   if (freq_count.update()) {
     // The result is doubled and it should be divided by 2
-    Serial.println(freq_count.get_observated_frequency() / 2.0, 3);
+    Serial.println(freq_count.get_observed_frequency() / 2.0, 3);
   }
 }
