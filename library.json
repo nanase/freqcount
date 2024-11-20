@@ -1,7 +1,7 @@
 {
   "name": "freqcount",
-  "version": "1.0.1",
-  "description": "Frequency counter for Raspberry Pi Pico using IRQ or PIO",
+  "version": "2.0.0",
+  "description": "Frequency counter for Arduino",
   "keywords": "frequency,counter",
   "repository": {
     "type": "git",
@@ -18,5 +18,8 @@
   "license": "MIT",
   "homepage": "https://github.com/nanase/freqcount",
   "frameworks": "arduino",
-  "platforms": "raspberrypi"
+  "examples": "examples/*",
+  "build": {
+    "includeDir": "src"
+  }
 }
