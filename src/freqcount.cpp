@@ -1,6 +1,8 @@
 #include "freqcount.h"
 
+#if !PICO_NO_HARDWARE
 #include "freqcount_pio.h"
+#endif
 
 void FreqCountIRQ::__freq_count_isr(FreqCountIRQ *instance) {
   uint64_t time = micros();
@@ -53,7 +55,7 @@ double FreqCountIRQ::get_observated_frequency() {
   return this->observated_frequency;
 }
 
-//
+#if !PICO_NO_HARDWARE
 
 uint8_t FreqCountPIO::claimed_sm[2]     = { 0, 0 };
 int32_t FreqCountPIO::program_offset[2] = { 0, 0 };
@@ -143,3 +145,5 @@ bool FreqCountPIO::update() {
 double FreqCountPIO::get_observated_frequency() {
   return this->observated_frequency;
 }
+
+#endif

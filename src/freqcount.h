@@ -20,6 +20,8 @@ class FreqCountIRQ {
   double get_observated_frequency();
 };
 
+#if !PICO_NO_HARDWARE
+
 class FreqCountPIO {
  private:
   PIO pio;
@@ -39,3 +41,5 @@ class FreqCountPIO {
   bool update();
   double get_observated_frequency();
 };
+
+#endif
