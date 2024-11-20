@@ -2,60 +2,6 @@
 
 #if !PICO_NO_HARDWARE
 #include "freqcount_pio.h"
-#endif
-
-void FreqCountIRQ::__freq_count_isr(FreqCountIRQ *instance) {
-  uint64_t time = micros();
-
-  if (instance->observed_count < instance->max_observation_count) {
-    instance->triggered_spans += time - instance->old_time;
-    instance->observed_count++;
-  }
-
-  instance->old_time = time;
-}
-
-bool FreqCountIRQ::begin(pin_size_t pin, PinStatus mode) {
-  this->attached_pin    = pin;
-  this->observed_count  = 0;
-  this->triggered_spans = 0;
-  this->old_time        = micros();
-  attachInterrupt(digitalPinToInterrupt(pin), FreqCountIRQ::__freq_count_isr, mode, this);
-
-  return true;
-}
-
-void FreqCountIRQ::end() {
-  detachInterrupt(digitalPinToInterrupt(this->attached_pin));
-}
-
-void FreqCountIRQ::set_max_observation_count(uint32_t max_observation_count) {
-  this->max_observation_count = max_observation_count;
-}
-
-bool FreqCountIRQ::update() {
-  if (this->observed_count == 0) {
-    this->observed_frequency = NAN;
-    return false;
-  }
-
-  noInterrupts();
-  uint64_t spans_total  = triggered_spans;
-  uint32_t count        = observed_count;
-  this->triggered_spans = 0;
-  this->observed_count  = 0;
-  interrupts();
-
-  this->observed_frequency = 1.0 / ((spans_total / (double)count) * 1e-6);
-
-  return true;
-}
-
-double FreqCountIRQ::get_observed_frequency() {
-  return this->observed_frequency;
-}
-
-#if !PICO_NO_HARDWARE
 
 uint8_t FreqCountPIO::claimed_sm[2]     = { 0, 0 };
 int32_t FreqCountPIO::program_offset[2] = { 0, 0 };
