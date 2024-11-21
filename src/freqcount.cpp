@@ -1,6 +1,6 @@
 #include "freqcount.h"
 
-#if !PICO_NO_HARDWARE
+#if PICO_PIO_VERSION
 #include "freqcount_pio.h"
 
 uint8_t FreqCountPIO::claimed_sm[2]     = { 0, 0 };

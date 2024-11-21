@@ -80,7 +80,7 @@ void FreqCountIRQ<pin>::__freq_count_isr() {
   old_time = time;
 }
 
-#if !PICO_NO_HARDWARE
+#if PICO_PIO_VERSION
 
 class FreqCountPIO {
  private:
